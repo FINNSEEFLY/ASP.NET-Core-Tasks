@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ASP.NET_Core_MVC__Task_2_.Filters
@@ -7,7 +8,6 @@ namespace ASP.NET_Core_MVC__Task_2_.Filters
     {
         public int RateLimit { get; set; } = 3;
         private int _currentNumOfConnections;
-        private const int TooManyRequests = 429;
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -17,7 +17,7 @@ namespace ASP.NET_Core_MVC__Task_2_.Filters
             }
             else
             {
-                context.Result = new StatusCodeResult(TooManyRequests);
+                context.Result = new StatusCodeResult(StatusCodes.Status429TooManyRequests);
             }
         }
 

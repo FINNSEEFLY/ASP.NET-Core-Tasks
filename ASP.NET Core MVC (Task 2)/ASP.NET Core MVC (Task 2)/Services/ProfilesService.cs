@@ -14,19 +14,19 @@ namespace ASP.NET_Core_MVC__Task_2_.Services
 
         public async Task<IEnumerable<Profile>> GetProfiles()
         {
-            IEnumerable<Profile> profileList = null;
+            IEnumerable<Profile> profiles = null;
             try
             {
                 await using var fileStream = File.OpenRead(ProfilePath);
-                profileList = await JsonSerializer.DeserializeAsync<IEnumerable<Profile>>(fileStream);
+                profiles = await JsonSerializer.DeserializeAsync<IEnumerable<Profile>>(fileStream);
             }
             catch
             {
                 // ignored
             }
 
-            Thread.Sleep(5000);
-            return profileList;
+            // Thread.Sleep(15000);
+            return profiles;
         }
     }
 }

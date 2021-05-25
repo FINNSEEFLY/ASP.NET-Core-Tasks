@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
+using Microsoft.AspNetCore.Http;
 
 namespace ASP.NET_Core_MVC__Task_2_.Controllers
 {
@@ -29,7 +30,7 @@ namespace ASP.NET_Core_MVC__Task_2_.Controllers
 
             if (profiles == null)
             {
-                return new StatusCodeResult(500);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
 
             if (searchString != null)
@@ -66,9 +67,12 @@ namespace ASP.NET_Core_MVC__Task_2_.Controllers
             };
 
             const int pageSize = 5;
-            var pageNumber = (page ?? 1);
 
-            return View(profiles.ToPagedList(pageNumber, pageSize));
+            var profilesArray = profiles.ToArray();
+            var pageCount = (profilesArray.Length / pageSize) + (profilesArray.Length % pageSize != 0 ? 1 : 0); 
+            var pageNumber = page <= 0 || page > pageCount ? 1 : page ?? 1;
+
+            return View(profilesArray.ToPagedList(pageNumber, pageSize));
         }
     }
 }

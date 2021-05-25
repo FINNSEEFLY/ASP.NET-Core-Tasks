@@ -1,14 +1,14 @@
 ﻿@using X.PagedList.Web.Common
 @model X.PagedList.IPagedList<Profile>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Profiles";
 }
 
 <div class="text-center">
     @using (Html.BeginForm("Index", "Home", FormMethod.Get))
     {
         <p>
-            I'll find everything: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            I'll find everything: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
             <input type="submit" class="btn btn-primary" value="Search"/>
         </p>
     }
