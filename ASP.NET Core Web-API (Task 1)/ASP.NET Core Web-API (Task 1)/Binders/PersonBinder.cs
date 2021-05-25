@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ASP.NET_Core_Web_API__Task_1_.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using ASP.NET_Core_Web_API__Task_1_.Data;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ASP.NET_Core_Web_API__Task_1_.Binders
 {
@@ -19,6 +17,7 @@ namespace ASP.NET_Core_Web_API__Task_1_.Binders
 
             var modelName = bindingContext.ModelName;
             var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
+
             if (valueProviderResult == ValueProviderResult.None)
             {
                 return Task.CompletedTask;
@@ -27,6 +26,7 @@ namespace ASP.NET_Core_Web_API__Task_1_.Binders
             bindingContext.ModelState.SetModelValue(modelName, valueProviderResult);
 
             var value = valueProviderResult.FirstValue;
+
             if (string.IsNullOrEmpty(value))
             {
                 return Task.CompletedTask;
@@ -53,8 +53,13 @@ namespace ASP.NET_Core_Web_API__Task_1_.Binders
                 bindingContext.ModelState.TryAddModelError(modelName, "Invalid encoded value");
                 return Task.CompletedTask;
             }
+            catch
+            {
+                bindingContext.ModelState.TryAddModelError(modelName, "Unknown error");
+                return Task.CompletedTask;
+            }
 
-            var model = new Person {Id = userGuid};
+            var model = new Person { Id = userGuid };
 
             bindingContext.Result = ModelBindingResult.Success(model);
             return Task.CompletedTask;

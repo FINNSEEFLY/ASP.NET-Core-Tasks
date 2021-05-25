@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ASP.NET_Core_Web_API__Task_1_.Data;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ASP.NET_Core_Web_API__Task_1_.Data;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ASP.NET_Core_Web_API__Task_1_.Binders
 {
@@ -33,9 +31,8 @@ namespace ASP.NET_Core_Web_API__Task_1_.Binders
             }
 
             var coordinate = 0;
-            var coords = (from part in value.Split(',')
-                where int.TryParse(part, out coordinate)
-                select coordinate).ToArray();
+            var coords = value.Split(',').Where(x => int.TryParse(x, out coordinate)).Select(_ => coordinate).ToArray();
+
 
             if (coords.Length != 3)
             {
