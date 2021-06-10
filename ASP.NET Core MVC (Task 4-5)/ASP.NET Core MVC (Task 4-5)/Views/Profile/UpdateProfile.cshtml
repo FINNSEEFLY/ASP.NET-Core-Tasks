@@ -1,0 +1,39 @@
+﻿@using ASP.NET_Core_MVC__Task_4_5_.Authorization
+@using ASP.NET_Core_MVC__Task_4_5_.Interfaces
+@inject IPermissionsProvider _permissionsProvider
+@model Profile
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<h3>Create profile</h3>
+<hr/>
+<div class="col-md-4">
+    @using (Html.BeginForm("UpdateProfile", "Profile", FormMethod.Post))
+    {
+        @Html.Hidden("ProfileId", Model.ProfileId)
+        <div class="form-group">
+            @Html.Label("Name", "Name")
+            @Html.TextBox("Name", Model.Name, new {@class = "form-control", placeholder = "Enter Name", required = true})
+        </div>
+        <div class="form-group">
+            @Html.Label("Email", "Email")
+            @Html.TextBox("Email", Model.Email, new {type = "email", @class = "form-control", placeholder = "Enter email", required = true})
+        </div>
+        <div class="form-group">
+            @Html.Label("Address", "Address")
+            @Html.TextBox("Address", Model.Address, new {@class = "form-control", placeholder = "Enter address", required = true})
+        </div>
+        <input type="submit" class="btn btn-primary" value="Update Profile"/>
+        if (_permissionsProvider.IsUserHasPermission(Permission.DeleteProfile))
+        {
+            @Html.ActionLink(
+                "Delete Profile",
+                "DeleteProfile",
+                "Profile",
+                new {id = Model.ProfileId},
+                new {@class = "btn btn-danger"}
+                )
+        }
+    }
+</div>

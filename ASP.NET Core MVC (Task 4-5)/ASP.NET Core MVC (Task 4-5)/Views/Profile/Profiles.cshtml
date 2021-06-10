@@ -1,0 +1,76 @@
+﻿@using ASP.NET_Core_MVC__Task_4_5_.Authorization
+@using ASP.NET_Core_MVC__Task_4_5_.Interfaces
+@inject IPermissionsProvider _permissionsProvider
+@model List<Profile>
+@{
+    ViewData["Title"] = "Profiles";
+}
+
+<div class="text-center">
+    @{
+        if (_permissionsProvider.IsUserHasPermission(Permission.AddProfile))
+        {
+            <div class="m-3">
+                @Html.ActionLink(
+                    "Add new profile",
+                    "AddProfile",
+                    "Profile",
+                    null,
+                    new {@class="btn btn-primary"}
+                    )
+            </div>
+            ;
+        }
+
+    }
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @Html.Raw(item.ProfileId.ToString())</td>
+                <td> @Html.Raw(item.Name)</td>
+                <td> @Html.Raw(item.Email)</td>
+                <td>
+                    @{
+                        if (_permissionsProvider.IsUserHasPermission(Permission.GetProfileById))
+                        {
+                            @Html.ActionLink(
+                                "View detail", 
+                                "GetProfileById",
+                                "Profile",
+                                new {id = item.ProfileId.ToString()}
+                                )
+                            <br/>
+                        }
+                        if (_permissionsProvider.IsUserHasPermission(Permission.DeleteProfile))
+                        {
+                            @Html.ActionLink(
+                                "Delete profile", 
+                                "DeleteProfile", 
+                                "Profile", 
+                                new {id = item.ProfileId.ToString()}
+                                )
+                            <br/>
+                        }
+                        if (_permissionsProvider.IsUserHasPermission(Permission.UpdateProfile))
+                        {
+                            @Html.ActionLink(
+                                "Edit profile", 
+                                "UpdateProfile", 
+                                "Profile", 
+                                new {id = item.ProfileId.ToString()}
+                                )
+                            <br/>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

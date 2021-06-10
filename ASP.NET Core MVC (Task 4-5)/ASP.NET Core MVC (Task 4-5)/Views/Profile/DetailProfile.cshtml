@@ -1,0 +1,56 @@
+﻿@using ASP.NET_Core_MVC__Task_4_5_.Authorization
+@using ASP.NET_Core_MVC__Task_4_5_.Interfaces
+@model Profile
+@inject IPermissionsProvider _permissionsProvider
+@{
+    ViewData["Title"] = "Detail profile";
+}
+
+<h3>
+    Detail profile
+</h3>
+<hr/>
+<div class="col-md-4">
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+    </dl>
+    @{
+        if (_permissionsProvider.IsUserHasPermission(Permission.UpdateProfile))
+        {
+            @Html.ActionLink(
+                "Edit profile",
+                "UpdateProfile",
+                "Profile",
+                new {id = Model.ProfileId},
+                new {@class = "btn btn-success mr-2",}
+                )
+        }
+        if (_permissionsProvider.IsUserHasPermission(Permission.DeleteProfile))
+        {
+            @Html.ActionLink(
+                "Delete profile",
+                "DeleteProfile",
+                "Profile",
+                new {id = Model.ProfileId},
+                new {@class = "btn btn-danger mr-2" }
+                )
+        }
+    }
+</div>
