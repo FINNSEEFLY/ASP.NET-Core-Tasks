@@ -22,7 +22,7 @@ namespace ASP.NET_Core_Web_API__Task_3_
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options => options.OutputFormatters.Insert(0, new CustomJsonFormatter()));
+            services.AddMvc(options => options.OutputFormatters.Insert(0, new CustomJsonFormatter()));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.NET_Core_Web_API__Task_3_", Version = "v1" });

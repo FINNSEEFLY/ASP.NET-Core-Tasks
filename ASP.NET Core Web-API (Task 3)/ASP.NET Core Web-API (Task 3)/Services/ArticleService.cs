@@ -40,6 +40,7 @@ namespace ASP.NET_Core_Web_API__Task_3_.Services
         private async Task<IEnumerable<ArticleModel>> LoadArticles()
         {
             IEnumerable<ArticleModel> articles = null;
+
             try
             {
                 await using var fileStream = File.OpenRead(_articlePath);
