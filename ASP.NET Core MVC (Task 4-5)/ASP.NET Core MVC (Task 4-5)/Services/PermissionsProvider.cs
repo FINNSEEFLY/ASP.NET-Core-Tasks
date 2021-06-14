@@ -43,16 +43,18 @@ namespace ASP.NET_Core_MVC__Task_4_5_.Services
                 return ((Permission)Role.None, Role.None);
             }
 
-            var role = roleManager.Roles.AsEnumerable().FirstOrDefault(r => user.IsInRole(r.Name));
+            var role = roleManager.Roles.Select(r=>r.Name)
+                                               .AsEnumerable()
+                                               .FirstOrDefault(roleName => user.IsInRole(roleName));
 
             if (role == null)
             {
                 return ((Permission)Role.None, Role.None);
             }
 
-            var permissions = RoleHelper.GetPermissionsByRoleName(role.Name);
+            var permissions = RoleHelper.GetPermissionsByRoleName(role);
 
-            return (permissions, Enum.Parse<Role>(role.Name));
+            return (permissions, Enum.Parse<Role>(role));
         }
     }
 }

@@ -36,9 +36,10 @@ namespace ASP.NET_Core_MVC__Task_4_5_.Data
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
             string testUserPw, string userName)
         {
-            var userManager = serviceProvider.GetService<UserManager<IdentityUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
             var user = await userManager?.FindByNameAsync(userName);
+
             if (user == null)
             {
                 user = new IdentityUser
@@ -119,6 +120,7 @@ namespace ASP.NET_Core_MVC__Task_4_5_.Data
                     ProfileId = Guid.NewGuid()
                 }
             );
+
             context.SaveChanges();
         }
     }
